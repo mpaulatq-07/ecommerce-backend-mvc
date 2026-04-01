@@ -1,31 +1,18 @@
 import { Router } from "express";
-import {
-  getAllProducts,
-  createNewProduct,
-  updateExistingProduct,
-  deleteExistingProduct,
-  getProduct,
-  purchaseProduct,
-  getAllPurchases,
-  getTodayPurchases,      
-  getPurchasesByDate,     
-} from "../controllers/product.controller";
+// Importamos todo el controlador
+import * as ProductController from "../controllers/product.controller";
 
 const router = Router();
 
-// RUTAS ESPECIALES (SIEMPRE ARRIBA)
-router.post("/products/purchase", purchaseProduct);
+// Asegúrate de que los nombres coincidan con las funciones del controlador
+router.get("/", ProductController.getAllProducts);
+router.get("/:id", ProductController.getProduct);
+router.post("/", ProductController.createNewProduct);
+router.put("/:id", ProductController.updateExistingProduct);
+router.delete("/:id", ProductController.deleteExistingProduct);
 
-// HISTORIAL
-router.get("/products/purchases", getAllPurchases);
-router.get("/products/purchases/today", getTodayPurchases);
-router.get("/products/purchases/by-date", getPurchasesByDate);
-
-//CRUD
-router.get("/products", getAllProducts);
-router.get("/products/:id", getProduct);
-router.post("/products", createNewProduct);
-router.put("/products/:id", updateExistingProduct);
-router.delete("/products/:id", deleteExistingProduct);
+// Rutas de compras (Purchase)
+router.post("/purchase", ProductController.purchaseProduct);
+router.get("/purchases/all", ProductController.getAllPurchases);
 
 export default router;

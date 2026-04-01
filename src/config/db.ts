@@ -1,13 +1,25 @@
-import mysql from "mysql2/promise";
+import mongoose from 'mongoose';
 
-// Creamos el pool de conexiones
-const connection = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "12345",
-  database: "ecommerce",
-});
+/**
+ * Función para conectar la aplicación a la base de datos MongoDB.
+ */
+const connectDB = async () => {
+  try {
+    // 127.0.0.1 es el localhost. 
+    // "ecommerce" es el nombre de la base de datos que se creará automáticamente.
+    const mongoURI = 'mongodb://127.0.0.1:27017/ecommerce';
 
-export default connection;
+    await mongoose.connect(mongoURI);
+
+    console.log('MongoDB Conectado exitosamente');
+  } catch (error) {
+    console.error('Error al intentar conectar a MongoDB:', error);
+    
+    // Si la base de datos no conecta, la app no debería seguir corriendo
+    process.exit(1);
+  }
+};
+
+export default connectDB;
 
 
